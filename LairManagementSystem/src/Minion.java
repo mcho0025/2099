@@ -1,12 +1,18 @@
 import java.util.ArrayList;
 
-public class Minion {
+public abstract class Minion {
 
 	private String minionId; 
 	private String givenName; 
 	private String familyName;
-	private ArrayList<MinionSkill> minionSkills = new ArrayList<MinionSkill>();
+	protected ArrayList<MinionSkill> minionSkills = new ArrayList<MinionSkill>();
+
 	
+	public abstract int monthlyPay();
+	
+	public enum MinionSkill {
+		SCUBA, PSYCHOLOGY, ROCKETRY
+	}
 	
 	// Constructors
 	public Minion(String newMinionId) {
@@ -46,5 +52,6 @@ public class Minion {
 		}
 		return check;
 	}
+	
 }
 

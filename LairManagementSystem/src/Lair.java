@@ -1,4 +1,6 @@
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Lair {
 	// creating an array of LairLocations that can contain 3 objects
@@ -36,31 +38,51 @@ public class Lair {
 	public void displayLairLocations() {
 		
 		// loop to go through locations array and get descriptions
-		for (int i = 0; i < locationsArray.length; i++) {
-			System.out.println(locationsArray[i].description());
+		for (LairLocation locations : locationsArray) {
+			System.out.println(locations.description());
 			
 			System.out.println("Assigned Minions: ");
 			
-			// creating temporary variable to get minion list
-			ArrayList<Minion> thisMinionList = locationsArray[i].getMinions();
-			
-			for (int j = 0; j < thisMinionList.size(); j++) {
-			System.out.println(thisMinionList.get(j).description());
+			for (int i = 0; i < locations.getMinions().size(); i++) {
+				System.out.println(locations.getMinions().get(i).description());
 			}
 			
+			 int totalPayroll = 0;
+	            for (int j = 0; j < locations.getMinions().size(); j++) {
+	                totalPayroll += locations.getMinions().get(j).monthlyPay();
+	            }
+	            System.out.println("Total payroll: $" + totalPayroll);
+	            
 			System.out.println();
 		}	
+	
 	}
 	
 	// creating Minions and assigning locations
 	public void createMinions() {
-		Minion minion1 = new Minion("12345678","Mini","Me");
-		Minion minion2 = new Minion("12345679","Chum","Burley");
-		Minion minion3 = new Minion("12345670","Donna","Matrix");
-		Minion minion4 = new Minion("12345666","Domestos","McBleach");
-		Minion minion5 = new Minion("12103464","Pyne","O'Kleen");
-		Minion minion6 = new Minion("12342312","Jenny","Young");
-		Minion minion7 = new Minion("12312312","Pink","Black");
+		Minion minion1 = new ResearcherMinion("12345678","Mini","Me");
+		minion1.addSkill(Minion.MinionSkill.PSYCHOLOGY);
+		
+		Minion minion2 = new ResearcherMinion("12345679","Chum","Burley");
+		minion2.addSkill(Minion.MinionSkill.PSYCHOLOGY);
+		minion2.addSkill(Minion.MinionSkill.SCUBA);
+		
+		Minion minion3 = new ResearcherMinion("12345670","Donna","Matrix");
+		minion3.addSkill(Minion.MinionSkill.SCUBA);
+		
+		Minion minion4 = new SupportMinion("12345666","Domestos","McBleach");
+		minion4.addSkill(Minion.MinionSkill.ROCKETRY);
+		
+		Minion minion5 = new SupportMinion("12103464","Pyne","O'Kleen");
+		minion5.addSkill(Minion.MinionSkill.PSYCHOLOGY);
+		minion5.addSkill(Minion.MinionSkill.ROCKETRY);
+		
+		Minion minion6 = new SupportMinion("12342312","Jenny","Young");
+		minion6.addSkill(Minion.MinionSkill.PSYCHOLOGY);
+		
+		Minion minion7 = new SupportMinion("12312312","Pink","Black");
+		minion7.addSkill(Minion.MinionSkill.SCUBA);
+		minion7.addSkill(Minion.MinionSkill.ROCKETRY);
 		
 		locationsArray[0].assignMinion(minion1);
 		locationsArray[0].assignMinion(minion2);
@@ -73,4 +95,12 @@ public class Lair {
 		
 	}
 
+	private String readString(String prompt) {
+        System.out.print(prompt);
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        String s = null; try {
+            s = in.readLine();
+        } catch (IOException e) {
+            e.printStackTrace(); }
+        return s; }
 }
